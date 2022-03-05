@@ -95,13 +95,13 @@ struct ASTProgram : ASTNode {
 };
 
 struct ASTDeclaration: ASTNode {
-    virtual void accept(ASTVisitor &) override;
+    virtual ~ASTDeclaration() = default;
     CminusType type;
     std::string id;
 };
 
 struct ASTFactor: ASTNode {
-    virtual void accept(ASTVisitor &) override;
+    virtual ~ASTFactor() = default;
 };
 
 struct ASTNum: ASTFactor {
@@ -115,7 +115,6 @@ struct ASTNum: ASTFactor {
 
 struct ASTVarDeclaration: ASTDeclaration {
     virtual void accept(ASTVisitor &) override final;
-    CminusType type;
     std::shared_ptr<ASTNum> num;
 };
 
@@ -134,7 +133,7 @@ struct ASTParam: ASTNode {
 };
 
 struct ASTStatement : ASTNode {
-    virtual void accept(ASTVisitor &) override;
+    virtual ~ASTStatement() = default;
 };
 
 struct ASTCompoundStmt: ASTStatement {
@@ -168,9 +167,7 @@ struct ASTReturnStmt: ASTStatement {
     std::shared_ptr<ASTExpression> expression; 
 };
 
-struct ASTExpression: ASTFactor {
-    virtual void accept(ASTVisitor &) override;
-};
+struct ASTExpression: ASTFactor { };
 
 struct ASTAssignExpression: ASTExpression {
     virtual void accept(ASTVisitor &) override final;
